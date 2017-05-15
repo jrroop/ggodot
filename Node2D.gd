@@ -18,6 +18,12 @@ func mage_dir(var x, var y):
 	moving = true
 	direction = Vector2(x, y)
 	mage_start_pos = get_node("mage").get_pos()
+
+func clear_kage():
+	var i = kageCount
+	while (i > 0):
+		get_node("kage"+str(i)).free()
+		i -= 1
 	
 func make_kage():
 	kageCount += 1
@@ -58,6 +64,8 @@ func _process(delta):
 		get_node("mage").set_pos(mage_pos + direction * MAGE_SPEED)
 		if ( mage_pos == mage_start_pos + Vector2( GRID * direction.x, GRID * direction.y) ):
 			moving = false	
+	if(Input.is_action_pressed("ui_select")):
+		clear_kage()
 	
 	#Goblin Movement
 	if(goblin_pos.y > 0):

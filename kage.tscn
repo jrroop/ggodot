@@ -13,6 +13,7 @@ shader/shading_mode = 0
 material/material = SubResource( 1 )
 transform/pos = Vector2( -113.604, 70.8849 )
 transform/scale = Vector2( 50, 50 )
+z/z = -1
 texture = ExtResource( 1 )
 modulate = Color( 0.320575, 0.306915, 0.441406, 1 )
 region = true
