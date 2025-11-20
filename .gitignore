@@ -3,5 +3,6 @@
 *.ctex
 *.md5
 *.cfg
+!export_presets.cfg
 *.bin
 filesystem_cache10
