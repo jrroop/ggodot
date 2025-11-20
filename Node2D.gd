@@ -15,39 +15,39 @@ const GOBLIN_SPEED = 1
 const MAGE_SPEED = 4
 const GRID = 16
 
-func mage_dir(var x, var y):
+func mage_dir(x, y):
 	moving = true
 	direction = Vector2(x, y)
-	mage_start_pos = get_node("mage").get_pos()
+	mage_start_pos = get_node("mage").position
 
 func clear_kage():
 	for x in (get_tree().get_nodes_in_group("kage_grp")):
-		x.free()
+		x.queue_free()
 	
 func make_kage():
 	kageCount += 1
-	var kage_inst = kage.instance()
+	var kage_inst = kage.instantiate()
 	var kage_name = "kage"+str(kageCount)
-	kage_inst.set_name(kage_name)
+	kage_inst.name = kage_name
 	add_child(kage_inst)
 	kage_inst.add_to_group("kage_grp")
 	
-	var kage_pos = get_node("mage").get_pos()
-	kage_inst.set_pos(Vector2(kage_pos.x,kage_pos.y - 50))
+	var kage_pos = get_node("mage").position
+	kage_inst.position = Vector2(kage_pos.x,kage_pos.y - 50)
 	
 func _ready():
 	screen_size = get_viewport_rect().size
-	mage_size = get_node("mage").get_texture().get_size()
-	goblin_size = get_node("goblin").get_texture().get_size()
-	set_process(true)
+	mage_size = get_node("mage").texture.get_size()
+	goblin_size = get_node("goblin").texture.get_size()
+	# set_process(true) # Not needed in Godot 4
 
 func _process(delta):
-#	var mage_rect = Rect2( get_node("mage").get_pos() - mage_size*0.5, mage_size )
-#	var goblin_rect = Rect2( get_node("goblin").get_pos() - goblin_size*0.5, mage_size )
+#	var mage_rect = Rect2( get_node("mage").position - mage_size*0.5, mage_size )
+#	var goblin_rect = Rect2( get_node("goblin").position - goblin_size*0.5, mage_size )
 	var mage_speed = MAGE_SPEED
 	var goblin_speed = GOBLIN_SPEED + (GRID * delta * 10)
-	var mage_pos = get_node("mage").get_pos()
-	var goblin_pos = get_node("goblin").get_pos()
+	var mage_pos = get_node("mage").position
+	var goblin_pos = get_node("goblin").position
 
 	#Mage Movement
 	if (!moving):
@@ -61,7 +61,7 @@ func _process(delta):
 			mage_dir(-1,0)
 	else:
 #		make_kage()
-		get_node("mage").set_pos(mage_pos + direction * MAGE_SPEED)
+		get_node("mage").position = mage_pos + direction * MAGE_SPEED
 		if ( mage_pos == mage_start_pos + Vector2( GRID * direction.x, GRID * direction.y) ):
 			moving = false	
 	if(Input.is_action_pressed("ui_select")):
@@ -88,5 +88,5 @@ func _process(delta):
 #			goblin_pos.x -= goblin_speed
 #		else:
 #			goblin_pos.x += goblin_speed
-	get_node("goblin").set_pos(goblin_pos)
+	get_node("goblin").position = goblin_pos
 
